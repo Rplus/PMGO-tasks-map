@@ -66,7 +66,10 @@
   function onLocationFound(e) {
     nowlatlng = e.latlng;
     const radius = e.accuracy / 2;
-    Leaflet.circle(e.latlng, radius).addTo(map);
+    if (map.circle) {
+      map.removeLayer(map.circle);
+    }
+    map.circle = Leaflet.circle(e.latlng, radius).addTo(map);
   };
 
   function onLocationError(e) {
