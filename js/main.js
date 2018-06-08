@@ -80,7 +80,7 @@
   //導航連結
   function navigation(LngLat, GPSLocation) {
     if (navigator.userAgent.match(/android/i)) {
-      return `google.navigation:q=${LngLat}&mode=d`;
+      return `google.navigation:q=${LngLat}&mode=w`;
     } else if (GPSLocation == 'undefined,undefined') {
       return `http://maps.google.com?q=${LngLat}`;
     } else {
