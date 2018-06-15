@@ -42,6 +42,9 @@ html, body, #map {
   left: 1rem;
   color:  #000;
   z-index: 10000;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .ctrl button {
@@ -49,6 +52,21 @@ html, body, #map {
   height: 1.5em;
   padding: 0;
   font-size: 1.25em;
+}
+
+.filters {
+  display: none;
+  width: 100%;
+  order: -1;
+  background-color: rgba(255, 255, 255, .75);
+}
+
+.ckbox-filter {
+  display: none;
+}
+
+#Filter:checked ~ .filters {
+  display: block;
 }
 
 * {
