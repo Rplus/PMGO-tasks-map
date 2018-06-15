@@ -7,6 +7,10 @@ html, body, #map {
   width: 100vw;
 }
 
+.leaflet-tile-pane {
+  opacity: .5;
+}
+
 .leaflet-tile-container.leaflet-zoom-animated {
   opacity: .7;
 }
@@ -45,6 +49,10 @@ html, body, #map {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.ctrl > * {
+  margin-right: .5em;
 }
 
 .ctrl button {
