@@ -1,5 +1,6 @@
 // (function (window, Leaflet) {
   Leaflet = L;
+  const imgHost = 'https://5upergeo.github.io/PMGO-tasks-map/img';
   const url = 'https://script.google.com/macros/s/AKfycbyOkCaKC-q75jN8NPx4oxLvkcIyEJLDGZDKUuAZ_Rl9JufGr1Uf/exec';
 
   let position = getPosition();
@@ -12,6 +13,7 @@
   let nowlatlng = {};
   let markers;
 
+  generateFilters();
   document.getElementById('locate-me').addEventListener('click', locateMe);
   document.getElementById('re-fetch').addEventListener('click', getData);
 
@@ -104,7 +106,7 @@
   function getIcons(tasks) {
     taskIcon = tasks.reduce((all, task) => {
       all[task] = Leaflet.icon({
-        iconUrl: `./img/${task}_.png`,
+        iconUrl: `${imgHost}/${task}_.png`,
         iconSize: [48, 48], // size of the icon
         iconAnchor: [24, 24], // point of the icon which will correspond to marker's location
         popupAnchor: [0, -18] // point from which the popup should open relative to the iconAnchor
@@ -130,7 +132,7 @@
           <small>回報確認數</small>
         </div>
         <div class="crop">
-          <img src="http://images.weserv.nl/?url=${report.image.replace(/^https?\:\/\//g, '')}&w=50&filt=greyscale&il&shape=circle">
+          <img src="http://images.weserv.nl/?url=${report.image.replace(/^https?\:\/\//g, '')}&w=70&h=70&filt=greyscale&il&trim=10&t=squaredown">
         </div>
         <br>
         <a href="${googleNavigation}" target="_blank">google 👣</a>'
@@ -171,7 +173,7 @@
       console.log({tasks});
       let dom = tasks.reduce((all, task) => {
         all.input.push(`<input type="checkbox" class="ckbox-filter" id="ckbox_${task}" checked />`);
-        all.label.push(`<label for="ckbox_${task}"><img src="./img/${task}_.png" title="${task}" /></label>`);
+        all.label.push(`<label for="ckbox_${task}"><img src="${imgHost}/${task}_.png" title="${task}" /></label>`);
         all.style.push(`
           #ckbox_${task}:not(:checked) ~ #map img[src$="/${task}_.png"] { display: none; }
           #ckbox_${task}:not(:checked) ~ .ctrl img[src$="/${task}_.png"] { filter: contrast(0%); }
@@ -187,6 +189,5 @@
       document.querySelector('#map').insertAdjacentHTML('beforebegin', dom.input.join(''));
     });
   }
-  generateFilters();
 
 // })(window, L);

@@ -49,6 +49,7 @@ html, body, #map {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  user-select: none;
 }
 
 .ctrl > * {
