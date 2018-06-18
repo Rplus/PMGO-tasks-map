@@ -184,6 +184,7 @@
   }
 
   function getData() {
+    checkLastDay();
     if (markers) {
       earseMarkers(markers);
     }
@@ -225,13 +226,17 @@
     localStorage.setItem('doneTasks', JSON.stringify(doneTasks));
   }
 
-  function getDoneTasks() {
+  function checkLastDay() {
     let today = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' });
     console.log(`today: ${today}`);
     if (localStorage.getItem('doneTasks-lastday') !== today) {
       localStorage.removeItem('doneTasks');
       localStorage.setItem('doneTasks-lastday', today);
     }
+  }
+
+  function getDoneTasks() {
+    checkLastDay();
     let tasks = localStorage.getItem('doneTasks') || "{}";
     return JSON.parse(tasks);
   }
