@@ -117,6 +117,7 @@
 
   function setMark(report) {
     let task = report.task.split('：');
+    let isDoubtful = report['T&F'].F > report['T&F'].T;
     let googleNavigation = navigation(
       `${report.lat},${report.lng}`,
       `${nowlatlng.lat},${nowlatlng.lng}`
@@ -140,10 +141,18 @@
     `;
     let marker = Leaflet.marker(
       [report.lat, report.lng],
-      { icon: taskIcon[task[1]] }
+      {
+        icon: taskIcon[task[1]],
+        title: report.site_name
+      }
     )
     .addTo(map)
     .bindPopup(popupContent);
+
+    if (isDoubtful) {
+      console.log(marker);
+      marker._icon.classList.add('is-doubtful');
+    }
 
     markers.push(marker);
   };
@@ -170,7 +179,6 @@
 
   function generateFilters() {
     getTasks().then((tasks) => {
-      console.log({tasks});
       let dom = tasks.reduce((all, task) => {
         all.input.push(`<input type="checkbox" class="ckbox-filter" id="ckbox_${task}" checked />`);
         all.label.push(`<label for="ckbox_${task}"><img src="${imgHost}/${task}_.png" title="${task}" /></label>`);
