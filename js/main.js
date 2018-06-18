@@ -6,6 +6,7 @@
   let position = getPosition();
   let mapLatLng = position.latLng;
   let mapZoom = position.zoom;
+  let doneTasks = getDoneTasks();
 
   let map = Leaflet.map('map');
 
@@ -116,13 +117,42 @@
   };
 
   function setMark(report) {
+    report.done = doneTasks[`${report.lat},${report.lng}`];
     let task = report.task.split('：');
     let isDoubtful = report['T&F'].F > report['T&F'].T;
+    let popupContent = createMarkerContent(report);
+    let marker = Leaflet.marker(
+      [report.lat, report.lng],
+      {
+        icon: taskIcon[task[1]],
+        title: report.site_name,
+        report: report,
+      }
+    )
+    .addTo(map)
+    .on('click', updateMarkerContent)
+    .bindPopup(popupContent);
+
+    if (isDoubtful) {
+      console.log(marker);
+      marker._icon.classList.add('is-doubtful');
+    }
+
+    if (report.done) {
+      marker._icon.classList.toggle('is-done', report.done);
+    }
+
+    // markers.push(marker);
+    markers.set(`${report.lat},${report.lng}`, marker);
+  };
+
+  function createMarkerContent(report) {
+    let task = report.task.split('：');
     let googleNavigation = navigation(
       `${report.lat},${report.lng}`,
       `${nowlatlng.lat},${nowlatlng.lng}`
     );
-    let popupContent = `
+    return `
       <div class='pokestops'>
         <h3>${report.site_name}</h3>
         <hr>
@@ -131,6 +161,10 @@
           ${report['T&F'].T} ✔️ / ${report['T&F'].F} ❌
           <br>
           <small>回報確認數</small>
+          <br>
+          <label>
+          <input type="checkbox" data-latlng="${report.lat},${report.lng}" ${report.done ? "checked": ''} /> 已完成
+          </label>
         </div>
         <div class="crop">
           <img src="http://images.weserv.nl/?url=${report.image.replace(/^https?\:\/\//g, '')}&w=70&h=70&filt=greyscale&il&trim=10&t=squaredown">
@@ -139,23 +173,11 @@
         <a href="${googleNavigation}" target="_blank">google 👣</a>'
       </div>
     `;
-    let marker = Leaflet.marker(
-      [report.lat, report.lng],
-      {
-        icon: taskIcon[task[1]],
-        title: report.site_name
-      }
-    )
-    .addTo(map)
-    .bindPopup(popupContent);
-
-    if (isDoubtful) {
-      console.log(marker);
-      marker._icon.classList.add('is-doubtful');
-    }
-
-    markers.push(marker);
   };
+
+  function updateMarkerContent() {
+    this.setPopupContent(createMarkerContent(this.options.report))
+  }
 
   function earseMarkers(markers) {
     markers.forEach(m => map.removeLayer(m));
@@ -171,7 +193,7 @@
       let tasks = d[0];
       getIcons(tasks);
 
-      markers = [];
+      markers = new Map();
       let reports = d[1];
       reports.forEach(setMark);
     });
@@ -197,5 +219,34 @@
       document.querySelector('#map').insertAdjacentHTML('beforebegin', dom.input.join(''));
     });
   }
+
+  function setDoneTasks(tasksLatLng, isDone = true) {
+    doneTasks[tasksLatLng] = isDone;
+    localStorage.setItem('doneTasks', JSON.stringify(doneTasks));
+  }
+
+  function getDoneTasks() {
+    let today = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    console.log(`today: ${today}`);
+    if (localStorage.getItem('doneTasks-lastday') !== today) {
+      localStorage.removeItem('doneTasks');
+      localStorage.setItem('doneTasks-lastday', today);
+    }
+    let tasks = localStorage.getItem('doneTasks') || "{}";
+    return JSON.parse(tasks);
+  }
+
+  function checkTaskDone(e) {
+    let input = e.target;
+    if (!input || !input.dataset.latlng) {
+      return;
+    }
+    let marker = markers.get(input.dataset.latlng);
+    marker.options.report.done = input.checked;
+    marker._icon.classList.toggle('is-done', input.checked);
+    setDoneTasks(input.dataset.latlng, input.checked);
+  }
+
+  document.querySelector('#map').addEventListener('input', checkTaskDone);
 
 // })(window, L);

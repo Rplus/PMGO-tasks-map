@@ -8,11 +8,20 @@ html, body, #map {
 }
 
 .leaflet-tile-pane {
-  opacity: .5;
+  opacity: .3;
 }
 
 .leaflet-tile-container.leaflet-zoom-animated {
   opacity: .7;
+}
+
+.leaflet-marker-icon.is-doubtful {
+  filter: contrast(0);
+  z-index: 0 !important;
+}
+
+.leaflet-marker-icon.is-done {
+  opacity: .3;
 }
 
 .crop img {
