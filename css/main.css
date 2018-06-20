@@ -22,6 +22,7 @@ html, body, #map {
 
 .leaflet-marker-icon.is-done {
   opacity: .3;
+  z-index: 0 !important;
 }
 
 .crop img {
