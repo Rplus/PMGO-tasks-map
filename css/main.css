@@ -7,6 +7,16 @@ html, body, #map {
   width: 100vw;
 }
 
+#map {
+  color: rgba(0,0,0,.3);
+}
+
+#map:hover {
+  background-image:
+    linear-gradient(transparent 50%, currentColor 0, currentColor calc(50% + 2px), transparent 0),
+    linear-gradient(90deg, transparent 50%, currentColor 0, currentColor calc(50% + 2px), transparent 0);
+}
+
 .leaflet-tile-pane {
   opacity: .3;
 }
@@ -88,6 +98,12 @@ html, body, #map {
   display: block;
 }
 
-* {
+div * {
   margin: 0;
+}
+
+#close-dialog {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

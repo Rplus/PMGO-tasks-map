@@ -2,6 +2,7 @@
   Leaflet = L;
   const imgHost = 'https://5upergeo.github.io/PMGO-tasks-map/img';
   const url = 'https://script.google.com/macros/s/AKfycbyOkCaKC-q75jN8NPx4oxLvkcIyEJLDGZDKUuAZ_Rl9JufGr1Uf/exec';
+  const return_task_url = 'https://script.google.com/macros/s/AKfycbzMvd730XVRRCoEL13052qsOC81kwPKeWRWZJV9B60e59nXCDLZ/exec';
 
   let position = getPosition();
   let mapLatLng = position.latLng;
@@ -13,6 +14,19 @@
   let taskIcon = {};
   let nowlatlng = {};
   let markers;
+
+  let LineID = '';
+  function getLineID() {
+    let idFromStorage = localStorage.getItem('LineID');
+    let idFromURL = new URLSearchParams(location.search).get('LineID');
+    if (idFromURL) {
+      LineID = idFromURL;
+      localStorage.setItem('LineID', idFromURL);
+    } else if (idFromStorage) {
+      LineID = idFromStorage;
+    }
+  };
+  getLineID();
 
   generateFilters();
   document.getElementById('locate-me').addEventListener('click', locateMe);
@@ -98,6 +112,10 @@
 
   function getTasks() {
     return fetch(`${url}?method=get_tasks`).then(d => d.json());
+  };
+
+  function getTasksFull() {
+    return fetch(`${url}?method=get_tasks_full`).then(d => d.json());
   };
 
   function getExistingData() {
@@ -189,10 +207,11 @@
       earseMarkers(markers);
     }
 
-    Promise.all([getTasks(), getExistingData() ])
+    Promise.all([getTasks(), getExistingData(), getTasksFull()])
     .then(d => {
       let tasks = d[0];
       getIcons(tasks);
+      updateReportTasks(d[2]);
 
       markers = new Map();
       let reports = d[1];
@@ -251,6 +270,95 @@
     marker._icon.classList.toggle('is-done', input.checked);
     setDoneTasks(input.dataset.latlng, input.checked);
   }
+
+  function getLineInfo() {
+    if (!LineID) { return; }
+
+    return fetch(`${return_task_url}?method=get_profile&LineID=${LineID}`)
+    .then(d => d.json())
+    .then(d => {
+      if (d.success) {
+        document.getElementById('task-reporter').innerText = d.displayName;
+      } else {
+        localStorage.removeItem('LineID');
+        prompt('請透過加入Line機器人[oh?]，啟動回報權限。', 'https://line.me/R/ti/p/%40wbf4859b');
+      }
+      return d;
+    });
+  };
+  getLineInfo();
+
+  let el_dialog = document.getElementById('dialog');
+  document.getElementById('close-dialog').addEventListener('click', closeDialog);
+  function closeDialog() {
+    el_dialog.close();
+  };
+
+  document.getElementById('add-report').addEventListener('click', addReport);
+  function addReport() {
+    if (el_dialog.open) {
+      closeDialog();
+    }
+
+    el_dialog.showModal();
+
+    resetNearbySites();
+    getNearbySites();
+  };
+
+  function resetNearbySites(params) {
+    document.getElementById('report-site').innerHTML = '';
+  };
+
+  function getNearbySites() {
+    let conter = map.getCenter();
+    let dd = new Date().getDate() > 15 ? 3 : 1;
+    let url = `https://pokestop-taiwan-${dd}.herokuapp.com/get_bbox_sites/${conter.lat}/${conter.lng}`;
+
+    fetch(url)
+      .then(d => d.json())
+      .then(updateReportSites);
+  }
+
+  function updateReportSites(sites) {
+    if (!sites) { return; }
+    let optionsHtml = sites.map(site => `<option value="${site.poke_title}＠${site.poke_lat}＠${site.poke_lng}＠${site.poke_image}" label="${site.poke_title}">`).join('');
+    document.getElementById('report-site').innerHTML = optionsHtml;
+  };
+
+  function updateReportTasks(tasks) {
+    if (!tasks) { return; }
+    let optionsHtml = tasks.map(task => `<option value="${task}" label="${task}">`).join('');
+    document.getElementById('report-task').innerHTML = optionsHtml;
+  }
+
+  document.getElementById('submit').addEventListener('click', returnTask);
+  function returnTask() {
+    let pokestop_info = document.getElementById('report-site').value.split('＠');
+    let task = document.getElementById('report-task').value;
+    let postURL = new URLSearchParams();
+
+    postURL.append('LineID', LineID);
+    postURL.append('task', task);
+    postURL.append('pokestop', encodeURIComponent(pokestop_info[0]));
+    postURL.append('lat', encodeURIComponent(pokestop_info[1]));
+    postURL.append('lng', encodeURIComponent(pokestop_info[2]));
+    postURL.append('image', encodeURIComponent(pokestop_info[3]));
+
+    fetch(return_task_url, {
+      method: "POST",
+      body: postURL.toString(),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    })
+    .then(d => d.json())
+    .then(d => {
+      if (d.success){
+        // onLoad();
+      } else {
+        alert(d.msg);
+      }
+    });
+  };
 
   document.querySelector('#map').addEventListener('input', checkTaskDone);
 
