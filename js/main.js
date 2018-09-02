@@ -341,10 +341,10 @@
 
     postURL.append('LineID', LineID);
     postURL.append('task', task);
-    postURL.append('pokestop', encodeURIComponent(pokestop_info[0]));
-    postURL.append('lat', encodeURIComponent(pokestop_info[1]));
-    postURL.append('lng', encodeURIComponent(pokestop_info[2]));
-    postURL.append('image', encodeURIComponent(pokestop_info[3]));
+    postURL.append('pokestop', pokestop_info[0]);
+    postURL.append('lat', pokestop_info[1]);
+    postURL.append('lng', pokestop_info[2]);
+    postURL.append('image', pokestop_info[3]);
 
     fetch(return_task_url, {
       method: "POST",
@@ -358,6 +358,7 @@
       } else {
         alert(d.msg);
       }
+      closeDialog();
     });
   };
 
