@@ -296,6 +296,7 @@
 
   document.getElementById('add-report').addEventListener('click', addReport);
   function addReport() {
+    if (!LineID) { return; }
     if (el_dialog.open) {
       closeDialog();
     }
