@@ -337,14 +337,14 @@
   function returnTask() {
     let pokestop_info = document.getElementById('report-site').value.split('＠x＠');
     let task = document.getElementById('report-task').value;
-    let postURL = new URLSearchParams();
-
-    postURL.append('LineID', LineID);
-    postURL.append('task', task);
-    postURL.append('pokestop', pokestop_info[0]);
-    postURL.append('lat', pokestop_info[1]);
-    postURL.append('lng', pokestop_info[2]);
-    postURL.append('image', pokestop_info[3]);
+    let postURL = new URLSearchParams({
+      LineID,
+      task,
+      pokestop: pokestop_info[0],
+      lat: pokestop_info[1],
+      lng: pokestop_info[2],
+      image: pokestop_info[3]
+    });
 
     fetch(return_task_url, {
       method: "POST",
