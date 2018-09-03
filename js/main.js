@@ -323,7 +323,7 @@
 
   function updateReportSites(sites) {
     if (!sites) { return; }
-    let optionsHtml = sites.map(site => `<option value="${site.poke_title}＠${site.poke_lat}＠${site.poke_lng}＠${site.poke_image}" label="${site.poke_title}">`).join('');
+    let optionsHtml = sites.map(site => `<option value="${site.poke_title}＠x＠${site.poke_lat}＠x＠${site.poke_lng}＠x＠${site.poke_image}" label="${site.poke_title}">`).join('');
     document.getElementById('report-site').innerHTML = optionsHtml;
   };
 
@@ -335,7 +335,7 @@
 
   document.getElementById('submit').addEventListener('click', returnTask);
   function returnTask() {
-    let pokestop_info = document.getElementById('report-site').value.split('＠');
+    let pokestop_info = document.getElementById('report-site').value.split('＠x＠');
     let task = document.getElementById('report-task').value;
     let postURL = new URLSearchParams();
 
