@@ -135,6 +135,11 @@
   };
 
   function setMark(report) {
+    if (report.lat === 'undefined' || report.lng === 'undefined') {
+        console.log('gg report', {report});
+        return;
+    }
+
     report.done = doneTasks[`${report.lat},${report.lng}`];
     let task = report.task.split('：');
     let isDoubtful = report['T&F'].F > report['T&F'].T;
