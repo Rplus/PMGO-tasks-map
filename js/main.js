@@ -359,6 +359,15 @@
     .then(d => d.json())
     .then(d => {
       if (d.success){
+        setMark({
+          task,
+          site_name: pokestop_info[0],
+          lat: pokestop_info[1],
+          lng: pokestop_info[2],
+          image: pokestop_info[3],
+          address: '',
+          'T&F': { T: 0, F: 0 },
+        });
         // onLoad();
       } else {
         alert(d.msg);
