@@ -135,8 +135,14 @@
   };
 
   function setMark(report) {
-    if (report.lat === 'undefined' || report.lng === 'undefined') {
-        console.log('gg report', {report});
+    if (
+      isNaN(report.lat) ||
+      isNaN(report.lng) ||
+      !report.site_name ||
+      !report.task ||
+      !report['T&F']
+    ) {
+        console.warn('gg report', { report });
         return;
     }
 
@@ -157,7 +163,7 @@
     .bindPopup(popupContent);
 
     if (isDoubtful) {
-      console.log(marker);
+      console.info({ Doubtful: marker });
       marker._icon.classList.add('is-doubtful');
     }
 
