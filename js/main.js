@@ -4,6 +4,12 @@
   const url = 'https://script.google.com/macros/s/AKfycbyOkCaKC-q75jN8NPx4oxLvkcIyEJLDGZDKUuAZ_Rl9JufGr1Uf/exec';
   const return_task_url = 'https://script.google.com/macros/s/AKfycbzMvd730XVRRCoEL13052qsOC81kwPKeWRWZJV9B60e59nXCDLZ/exec';
 
+  let imgProxy = (src, keepProtocol = true, props = '&width=300') => {
+    let url = keepProtocol ? src : src.replace(/^https?\:\/\//g, '');
+    // return `https://imageproxy.pimg.tw/zoomcrop?url=${url}${props}`;
+    return `http://images.weserv.nl/?url=${url}${props}`;
+  };
+
   let position = getPosition();
   let mapLatLng = position.latLng;
   let mapZoom = position.zoom;
@@ -196,7 +202,7 @@
           </label>
         </div>
         <div class="crop">
-          <img src="http://images.weserv.nl/?url=${report.image.replace(/^https?\:\/\//g, '')}&w=70&h=70&filt=greyscale&il&trim=10&t=squaredown">
+          <img src="${imgProxy(report.image, false, '&w=70&h=70&filt=greyscale&trim=10&t=squaredown&q=10&il')}" />
         </div>
         <br>
         <a href="${googleNavigation}" target="_blank">google 👣</a>'
