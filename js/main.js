@@ -16,6 +16,7 @@
   let doneTasks = getDoneTasks();
 
   let map = Leaflet.map('map');
+  map.attributionControl.addAttribution('u:2018-09-14');
 
   let taskIcon = {};
   let nowlatlng = {};
