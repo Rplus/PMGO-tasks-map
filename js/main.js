@@ -351,8 +351,12 @@
     document.getElementById('report-task').innerHTML = optionsHtml;
   }
 
-  document.getElementById('submit').addEventListener('click', returnTask);
-  function returnTask() {
+  document.getElementById('report-form').addEventListener('submit', returnTask);
+  function returnTask(e) {
+    e.preventDefault();
+    if (this.title) { return; }
+    this.title = 'proceed';
+
     let pokestop_info = document.getElementById('report-site').value.split('＠x＠');
     let task = document.getElementById('report-task').value;
     let postURL = new URLSearchParams({
@@ -371,6 +375,7 @@
     })
     .then(d => d.json())
     .then(d => {
+      this.title = '';
       if (d.success){
         setMark({
           task,
@@ -383,9 +388,12 @@
         });
         // onLoad();
       } else {
-        alert(d.msg);
+        alert(d.msg || 'GG');
       }
       closeDialog();
+    })
+    .catch(() => {
+      this.title = '';
     });
   };
 

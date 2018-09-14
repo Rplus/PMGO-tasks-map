@@ -22,16 +22,20 @@
     <div class="filters"></div>
   </div>
   <dialog id="dialog">
-    <dl class="content">
-      <dt>回報人:</dt>
-      <dd id="task-reporter"></dd>
-      <dt>補給站：</dt>
-      <dd id="task-site-name"><select id="report-site"></select></dd>
-      <dt>任務：</dt>
-      <dd id="task-name"><select id="report-task"></select></dd>
-    </dl>
+    <form id="report-form" class="report-form" action="https://script.google.com/macros/s/AKfycbzMvd730XVRRCoEL13052qsOC81kwPKeWRWZJV9B60e59nXCDLZ/exec">
+      <dl class="report-content">
+        <dt>回報人:</dt>
+        <dd id="task-reporter"></dd>
+        <dt>補給站：</dt>
+        <dd id="task-site-name"><select id="report-site"></select></dd>
+        <dt>任務：</dt>
+        <dd id="task-name"><select id="report-task"></select></dd>
+      </dl>
+      <div class="submit-box">
+        <input id="submit" type="submit" />
+      </div>
+    </form>
     <button id="close-dialog">❌</button>
-    <input id="submit" type="submit" />
   </dialog>
   <span id="center-mark"></span>
 </body>

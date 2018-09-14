@@ -92,6 +92,23 @@ div * {
   margin: 0;
 }
 
+.report-content {
+  padding-bottom: 1em;
+  border-bottom: 1px dashed #ccc;
+}
+
+.report-content dt {
+  padding-top: .25em;
+}
+
+.submit-box {
+  text-align: right;
+}
+
+.report-form[title="proceed"] .submit-box::before {
+  content: 'proceed...';
+}
+
 #close-dialog {
   position: absolute;
   top: 0;
