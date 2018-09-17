@@ -105,8 +105,8 @@ div * {
   text-align: right;
 }
 
-.report-form[title="proceed"] .submit-box::before {
-  content: 'proceed...';
+.report-form[title="Processing…"] .submit-box::before {
+  content: 'Processing…...';
 }
 
 #close-dialog {
