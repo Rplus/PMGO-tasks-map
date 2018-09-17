@@ -5,12 +5,6 @@ import { getData } from './get-data.js';
 window.Leaflet = window.L;
 const map = Leaflet.map('map');
 
-export default map;
-
-
-//
-window.map = map;
-
 map.attributionControl.addAttribution('u:2018-09-14');
 
 let position = getPosition();
@@ -60,6 +54,9 @@ function onLocationError(e) {
   console.warn(e.message);
   document.title = `[GG] - ${document.title}`;
 };
+
+
+export default map;
 
 
 export function earseMarkers(markers) {

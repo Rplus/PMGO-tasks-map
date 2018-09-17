@@ -58,7 +58,7 @@ export function reportTask(e) {
   let postParams = new URLSearchParams(postInfo);
 
   fetch(urls.reportTask, {
-    method: "POST",
+    method: 'POST',
     body: postParams.toString(),
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
   })
