@@ -17,6 +17,12 @@ export function setMark(report) {
   let task = report.task.split('：');
   let isDoubtful = report['T&F'].F > report['T&F'].T;
   let popupContent = createMarkerContent(report);
+
+  if (!window.info.taskIcons[task[1]]) {
+    console.warn('no icon', report);
+    return;
+  }
+
   let marker = Leaflet.marker(
     [report.lat, report.lng],
     {
