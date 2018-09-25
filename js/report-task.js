@@ -8,7 +8,7 @@ const splitChar = '@x@';
 
 function getNearbySites() {
   let conter = map.getCenter();
-  let dd = new Date().getDate() > 15 ? 3 : 1;
+  let dd = new Date().getDate() > 15 ? 2 : 1;
   let url = `https://pokestop-taiwan-${dd}.herokuapp.com/get_bbox_sites/${conter.lat}/${conter.lng}`;
 
   fetch(url)
