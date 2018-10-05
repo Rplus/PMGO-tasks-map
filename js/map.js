@@ -5,7 +5,7 @@ import { getData } from './get-data.js';
 window.Leaflet = window.L;
 const map = Leaflet.map('map');
 
-map.attributionControl.addAttribution('u:2018-09-14');
+map.attributionControl.addAttribution('u:2018-10-05');
 
 let position = getPosition();
 

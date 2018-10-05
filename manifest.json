@@ -1,0 +1,13 @@
+{
+  "name": "田野任務地圖 - Rplus",
+  "short_name": "田野任務地圖 - Rplus",
+  "lang": "zh-TW",
+  "start_url": "./",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "img/logo.png",
+      "sizes": "144x144"
+    }
+  ]
+}
