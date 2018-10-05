@@ -17,7 +17,6 @@ function getLineID() {
 
 function getLineInfo() {
   let LineID = getLineID();
-  if (!LineID) { return; }
 
   return (
     u.fetchJSON(`${urls.reportTask}?method=get_profile&LineID=${LineID}`)
