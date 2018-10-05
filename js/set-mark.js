@@ -1,4 +1,3 @@
-import map from './map.js';
 import createMarkerContent from './create-mark-content.js';
 
 export function setMark(report) {
@@ -31,12 +30,11 @@ export function setMark(report) {
       report: report,
     }
   )
-  .addTo(map)
   .bindPopup(popupContent);
 
   if (isDoubtful) {
     console.info({ Doubtful: marker });
-    marker._icon.classList.add('is-doubtful');
+    marker.isDoubtful = isDoubtful;
   }
 
   // if (report.done) {

@@ -2,6 +2,7 @@ import { urls } from './u/urls.js';
 import * as u from './u/u.js';
 import { setMark } from './set-mark.js';
 import { earseMarkers } from './map.js';
+import { renderMarkersInView } from './map.js';
 
 export let taskIcons;
 export const getTasks = u.fetchJSON(`${urls.macros}?method=get_tasks`);
@@ -42,5 +43,6 @@ export function getData() {
     window.markers = new Map();
     let reports = d[1];
     reports.forEach(setMark);
+    renderMarkersInView();
   });
 }

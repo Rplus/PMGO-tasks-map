@@ -11,6 +11,7 @@ let position = getPosition();
 
 map
   .on('moveend', setPosition)
+  .on('moveend', renderMarkersInView)
   .on('load', onLoad)
   .on('locationfound', onLocationFound)
   .on('locationerror', onLocationError)
@@ -32,6 +33,32 @@ function setPosition() {
   localStorage.setItem('lng', lng);
   localStorage.setItem('zoom', map.getZoom());
 };
+
+
+let markersInView = [];
+
+export function renderMarkersInView() {
+  let bounds = map.getBounds();
+
+  let checkInView = (_marker, _latLng) => {
+    let inView = bounds.contains(L.latLng.apply(null, _latLng.split(',')));
+
+    if (inView) {
+      markersInView.push(_marker);
+      _marker.addTo(map);
+      if (_marker.isDoubtful) {
+        _marker._icon && _marker._icon.classList.add('is-doubtful');
+      }
+    }
+    return inView;
+  };
+
+  if (window.markers) {
+    earseMarkers(markersInView); // clear markers in view at first
+    markersInView = [];
+    window.markers.forEach(checkInView);
+  }
+}
 
 
 function onLoad() {
