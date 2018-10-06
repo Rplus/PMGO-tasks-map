@@ -127,3 +127,8 @@ div * {
     linear-gradient(90deg, transparent 50%, currentColor 0, currentColor calc(50% + 2px), transparent 0);
   pointer-events: none;
 }
+
+.filters img {
+  max-width: 12vw;
+  max-height: 12vh;
+}
