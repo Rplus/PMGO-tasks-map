@@ -1,3 +1,4 @@
+import centerMark from './center-mark.js';
 import getLineInfo from './u/get-Line-info.js';
 import ctrl from './ctrls.js';
 import map from './map.js';
