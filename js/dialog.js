@@ -2,6 +2,15 @@ import { urls } from './u/urls.js';
 import * as u from './u/u.js';
 import { reportTask } from './report-task.js';
 
+let eventTasks = [
+  '進化10隻(水)：迷你龍',
+  '捉5凱西、催眠貘：迷唇姐',
+  '進化3呆呆獸、蛋蛋：麒麟奇',
+  '抓10隻(超)：1000星塵',
+];
+
+eventTasks.title = '超能力週';
+
 class reportDialog {
   constructor() {
     this.open = () => this.dialog.showModal();
@@ -9,12 +18,44 @@ class reportDialog {
 
     this.updateReportTasks = (tasks) => {
       if (!tasks) { return; }
-      this.reportTask.innerHTML = u.generateOptions(
-        tasks.map(task => ({
-          value: task,
-          label: task,
-        }))
+
+      if (eventTasks) {
+        tasks = tasks.reduce((all, task) => {
+          if (eventTasks.includes(task)) {
+            all.event.push(task);
+          } else {
+            all.normal.push(task);
+          }
+          return all;
+        }, { event: [], normal: [] });
+      }
+
+      let html = '';
+
+      if (tasks.event) {
+        html = `
+          <optgroup label="${eventTasks.title}">
+          ${
+            u.generateOptions(
+              tasks.event.sort().map(task => ({
+                value: task,
+                label: task,
+              }))
+            )
+          }
+          </optgroup>`;
+      }
+
+      html += (
+        u.generateOptions(
+          tasks.normal.sort().map(task => ({
+            value: task,
+            label: task,
+          }))
+        )
       );
+
+      this.reportTask.innerHTML = html;
     };
   }
 
