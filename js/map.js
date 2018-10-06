@@ -5,7 +5,15 @@ import { getData } from './get-data.js';
 window.Leaflet = window.L;
 const map = Leaflet.map('map');
 
-map.attributionControl.addAttribution('u:2018-10-05');
+
+fetch('./service-worker.js')
+.then(d => d.text())
+.then(swjs => {
+  let version = swjs.match(/(?:precache)-([^']+)/);
+  if (!version) { return; }
+  map.attributionControl.addAttribution(version[1]);
+});
+
 
 let position = getPosition();
 
