@@ -3,7 +3,7 @@ import ctrl from './ctrls.js';
 import map from './map.js';
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('../service-worker.js');
+  navigator.serviceWorker.register('/PMGO-tasks-map/service-worker.js');
 }
 
 window.info = {
