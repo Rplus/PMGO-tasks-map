@@ -3,6 +3,7 @@ import map from './map.js';
 import * as u from './u/u.js';
 import { urls } from './u/urls.js';
 import { setMark } from './set-mark.js';
+import { renderMarkersInView } from './map.js';
 
 const splitChar = '@x@';
 
@@ -73,6 +74,7 @@ export function reportTask(e) {
         address: '',
         'T&F': { T: 0, F: 0 },
       });
+      renderMarkersInView();
       // onLoad();
     } else {
       alert(d.msg || 'GG');
