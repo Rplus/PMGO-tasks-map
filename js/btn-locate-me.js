@@ -11,7 +11,7 @@ function createLocateBtn() {
 function locateMe() {
   map.locate({
     setView: true,
-    maxZoom: 16
+    maxZoom: Math.max(map.getZoom(), 16)
   });
 }
 
