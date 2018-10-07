@@ -15,3 +15,11 @@ let LineInfo;
 
 getLineInfo().then(d => LineInfo = d)
 document.body.appendChild(ctrl);
+
+if (
+  ('Notification' in window) &&
+  (Notification.permission !== 'granted') &&
+  confirm('需要「通知」的權限')
+  ) {
+  Notification.requestPermission();
+}

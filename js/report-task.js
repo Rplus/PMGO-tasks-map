@@ -4,6 +4,7 @@ import * as u from './u/u.js';
 import { urls } from './u/urls.js';
 import { setMark } from './set-mark.js';
 import { renderMarkersInView } from './map.js';
+import { notify } from './notify.js';
 
 const splitChar = '@x@';
 
@@ -75,6 +76,11 @@ export function reportTask(e) {
         'T&F': { T: 0, F: 0 },
       });
       renderMarkersInView();
+
+      if (document.hidden) {
+        notify('👍 report success!');
+      }
+
       // onLoad();
     } else {
       alert(d.msg || 'GG');
