@@ -4,12 +4,13 @@ import { reportTask } from './report-task.js';
 
 let eventTasks = [
   '進化10隻(水)：迷你龍',
-  '捉5凱西、催眠貘：迷唇姐',
-  '進化3呆呆獸、蛋蛋：麒麟奇',
-  '抓10隻(超)：1000星塵',
+  '交換1隻：醜醜魚',
+  '抓5隻(水系)：大鉗蟹',
+  '2曲N：晃晃斑',
+  '使用5凰果：銀凰果',
 ];
 
-eventTasks.title = '超能力週';
+eventTasks.title = '水君月';
 
 class reportDialog {
   constructor() {
