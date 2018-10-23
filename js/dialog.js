@@ -2,15 +2,19 @@ import { urls } from './u/urls.js';
 import * as u from './u/u.js';
 import { reportTask } from './report-task.js';
 
-let eventTasks = [
-  '進化10隻(水)：迷你龍',
-  '交換1隻：醜醜魚',
-  '抓5隻(水系)：大鉗蟹',
-  '2曲N：晃晃斑',
-  '使用5凰果：銀凰果',
-];
+let eventTasks = {
+  '水君月': [
+    '進化10隻(水)：迷你龍',
+    '交換1隻：醜醜魚',
+    '抓5隻(水系)：大鉗蟹',
+    '2曲N：晃晃斑',
+    '使用5凰果：銀凰果',
+    '孵2個蛋：吼吼鯨',
+  ],
+};
 
-eventTasks.title = '水君月';
+let events = Object.keys(eventTasks);
+// group.push('=====');
 
 class reportDialog {
   constructor() {
@@ -20,41 +24,38 @@ class reportDialog {
     this.updateReportTasks = (tasks) => {
       if (!tasks) { return; }
 
-      if (eventTasks) {
-        tasks = tasks.reduce((all, task) => {
-          if (eventTasks.includes(task)) {
-            all.event.push(task);
-          } else {
-            all.normal.push(task);
+      tasks = tasks.reduce((all, task) => {
+        let eventGroup = null;
+        events.some(event => {
+          let matched = eventTasks[event].includes(task);
+          if (matched) {
+            eventGroup = event;
           }
-          return all;
-        }, { event: [], normal: [] });
-      }
+          return matched;
+        });
 
-      let html = '';
+        eventGroup = eventGroup || '=====';
 
-      if (tasks.event) {
-        html = `
-          <optgroup label="${eventTasks.title}">
-          ${
-            u.generateOptions(
-              tasks.event.sort().map(task => ({
-                value: task,
-                label: task,
-              }))
-            )
-          }
-          </optgroup>`;
-      }
+        all[eventGroup] = all[eventGroup] || [];
+        all[eventGroup].push(task);
 
-      html += (
-        u.generateOptions(
-          tasks.normal.sort().map(task => ({
-            value: task,
-            label: task,
-          }))
-        )
-      );
+        return all;
+        }, {});
+
+      let html = Object.keys(tasks).map(group => {
+        return (`
+          <optgroup label="${group}">
+            ${
+              u.generateOptions(
+                tasks[group].sort().map(task => ({
+                  value: task,
+                  label: task,
+                }))
+              )
+            }
+          </optgroup>
+        `);
+      }).join('');
 
       this.reportTask.innerHTML = html;
     };
