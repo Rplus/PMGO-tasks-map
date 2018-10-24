@@ -3,7 +3,7 @@ import * as u from './u/u.js';
 import { reportTask } from './report-task.js';
 
 let eventTasks = {
-  '水君月': [
+  '2. 水君月': [
     '進化10隻(水)：迷你龍',
     '交換1隻：醜醜魚',
     '抓5隻(水系)：大鉗蟹',
@@ -11,10 +11,22 @@ let eventTasks = {
     '使用5凰果：銀凰果',
     '孵2個蛋：吼吼鯨',
   ],
+  '1. 萬聖節': [
+    '捉10隻幽靈系：勾魂眼',
+    '捉5隻土狼犬/戴魯比：狃拉',
+    '傳送10隻：夢妖',
+    '進化3隻夜巡靈/怨影娃娃：1糖',
+  ],
+  '3. 衝衝衝': [
+    '7場絕佳：電擊獸',
+    '連續3E：幼基拉斯',
+    '孵5個蛋：吉利蛋',
+    '孵3個蛋：鴨嘴火獸',
+    '捉1隻龍：迷你龍',
+  ],
 };
 
 let events = Object.keys(eventTasks);
-// group.push('=====');
 
 class reportDialog {
   constructor() {
@@ -42,7 +54,7 @@ class reportDialog {
         return all;
         }, {});
 
-      let html = Object.keys(tasks).map(group => {
+      let html = Object.keys(tasks).sort((a, b) => a[0] > b[0]).map(group => {
         return (`
           <optgroup label="${group}">
             ${
