@@ -248,10 +248,59 @@
     // 產製任務回報
     function setTasks(tasks) {
         var select_tasks = document.getElementById('tasks');
+        var eventTasks = {
+            '1. 萬聖節': [
+                '捉10隻幽靈系：勾魂眼',
+                '捉5隻土狼犬/戴魯比：狃拉',
+                '傳送10隻：夢妖',
+                '進化3隻夜巡靈/怨影娃娃：1糖'
+            ],
+            '2. 水君月': [
+                '進化10隻(水)：迷你龍',
+                '交換1隻：醜醜魚',
+                '捉5隻(水系)：大鉗蟹',
+                '2曲N：晃晃斑',
+                '使用5凰果：銀凰果',
+                '孵2個蛋：吼吼鯨'
+            ]
+        };
 
-        var results = '<option value="請選擇任務">請選擇任務</option>' + tasks.map(function (task) {
-            return '<option value="' + task + '">' + task + '</option>';
-        }).join('');
+        var events = Object.keys(eventTasks);
+
+        tasks = tasks.reduce(function(all, task) {
+            var eventGroup = 'x';
+            events.some(function(event) {
+                var matched = eventTasks[event].indexOf(task) !== -1;
+                if (matched) {
+                    eventGroup = event;
+                }
+                return matched;
+            });
+            all[eventGroup] = all[eventGroup] || [];
+            all[eventGroup].push(task);
+            return all;
+        }, {});
+
+        var results =
+            '<option value="請選擇任務">請選擇任務</option>' +
+            Object.keys(tasks)
+            .sort(function(a, b) {
+                return a[0] - b[0];
+            })
+            .map(function(group) {
+                var optionsHtml = '';
+                optionsHtml = tasks[group]
+                    .sort()
+                    .map(function(task) {
+                        return '<option value="' + task + '">' + task + "</option>";
+                    })
+                    .join('');
+                if (group !== 'x') {
+                    optionsHtml =
+                        '<optgroup label="' + group + '">' + optionsHtml + "</optgroup>";
+                }
+                return optionsHtml;
+            });
         select_tasks.innerHTML = results;
     }
 
