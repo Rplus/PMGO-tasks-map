@@ -67,7 +67,10 @@ export function reportTask(e) {
   .then(u.toJSON)
   .then(d => {
     this.title = '';
-    reportDialog.close();
+    if (!reportDialog.dialog.isClosedByHand) {
+      reportDialog.close();
+      reportDialog.dialog.isClosedByHand = true;
+    }
     if (d.success){
       setMark({
         ...postInfo,

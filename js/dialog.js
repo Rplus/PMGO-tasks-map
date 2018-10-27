@@ -111,7 +111,10 @@ class reportDialog {
     u.fetchJSON(`${urls.macros}?method=get_tasks_full`)
       .then(this.updateReportTasks);
 
-    this.closeBtn.addEventListener('click', this.close);
+    this.closeBtn.addEventListener('click', () => {
+      this.close();
+      this.dialog.isClosedByHand = true;
+    });
     this.reportForm.addEventListener('submit', reportTask);
   }
 }
