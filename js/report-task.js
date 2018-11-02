@@ -24,6 +24,12 @@ function updateReportSites(sites) {
     return;
   }
 
+  let center = map.getCenter();
+  sites.forEach(site => {
+    site.d = center.distanceTo([site.poke_lat, site.poke_lng]);
+  });
+  sites.sort((a, b) => a.d - b.d);
+
   reportDialog.reportSite.innerHTML = u.generateOptions(
     sites.map(site => ({
       value: `${site.poke_title}${splitChar}${site.poke_lat}${splitChar}${site.poke_lng}${splitChar}${site.poke_image}`,
