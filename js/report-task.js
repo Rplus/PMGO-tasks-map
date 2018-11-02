@@ -48,6 +48,8 @@ export function reportTask(e) {
   ] = reportDialog.reportSite.value.split(splitChar);
   let task = reportDialog.reportTask.value;
 
+  if (!task) { return; }
+
   let postInfo = {
     LineID: window.info.LineInfo.userId,
     task,

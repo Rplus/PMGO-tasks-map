@@ -48,9 +48,9 @@ class reportDialog {
         all[eventGroup].push(task);
 
         return all;
-        }, {});
+      }, {});
 
-      let html = Object.keys(tasks).sort((a, b) => a[0] > b[0]).map(group => {
+      let html = Object.keys(tasks).sort().map(group => {
         return (`
           <optgroup label="${group}">
             ${
@@ -64,6 +64,8 @@ class reportDialog {
           </optgroup>
         `);
       }).join('');
+
+      html = `<option value="" label="--"></option>` + html;
 
       this.reportTask.innerHTML = html;
     };
