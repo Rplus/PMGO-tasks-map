@@ -37,9 +37,6 @@ export function reportTask(e) {
   e.preventDefault();
   console.log('report task');
 
-  if (this.title) { return; }
-  this.title = 'Processing…';
-
   let [
     pokestop,
     lat,
@@ -61,6 +58,8 @@ export function reportTask(e) {
 
   let postParams = new URLSearchParams(postInfo);
 
+  reportDialog.close();
+
   fetch(urls.reportTask, {
     method: 'POST',
     body: postParams.toString(),
@@ -68,11 +67,6 @@ export function reportTask(e) {
   })
   .then(u.toJSON)
   .then(d => {
-    this.title = '';
-    if (!reportDialog.dialog.isClosedByHand) {
-      reportDialog.close();
-      reportDialog.dialog.isClosedByHand = true;
-    }
     if (d.success){
       setMark({
         ...postInfo,
@@ -85,13 +79,10 @@ export function reportTask(e) {
       if (document.hidden) {
         notify('👍 report success!');
       }
-
-      // onLoad();
     } else {
       alert(d.msg || 'GG');
     }
-  })
-  .catch(() => (this.title = ''));
+  });
 }
 
 
