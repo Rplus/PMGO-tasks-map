@@ -15,6 +15,7 @@ getTasks.then(tasks => {
   console.log({tasks});
 
   let dom = tasks.reduce((all, task) => {
+    let imgUrl = `${urls.imgHost}/${task}_.png`;
     all.input.push(`
       <input
         type="checkbox"
@@ -22,7 +23,7 @@ getTasks.then(tasks => {
         id="ckbox_${task}" checked />`);
     all.label.push(`
       <label for="ckbox_${task}">
-        <img src="${urls.imgHost}/${task}_.png" title="${task}" />
+        <img src="${imgUrl}" title="${task}" />
       </label>`);
     all.style.push(`
       #ckbox_${task}:not(:checked) ~ #map img[src$="/${task}_.png"] { display: none; }
