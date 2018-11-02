@@ -6,8 +6,12 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "img/logo.png",
+      "src": "img/logo-144x144.png",
       "sizes": "144x144"
+    },
+    {
+      "src": "img/logo-192x192.png",
+      "sizes": "192x192"
     }
   ]
 }
