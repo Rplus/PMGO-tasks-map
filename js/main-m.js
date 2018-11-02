@@ -5,6 +5,14 @@ import map from './map.js';
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/PMGO-tasks-map/service-worker.js');
+
+  if (location.search === '?clear=cache') {
+    caches.keys().then(function(names) {
+      for (let name of names) {
+        caches.delete(name);
+      }
+    });
+  }
 }
 
 window.info = {
