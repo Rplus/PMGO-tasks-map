@@ -258,6 +258,14 @@
     // 產製附近站點
     function setPokestops(pokestops) {
         var pokestops_nearby = document.getElementById('pokestops_nearby');
+        var center = map.getCenter();
+
+        pokestops.forEach(function(pokestop) {
+          pokestop.d = center.distanceTo([pokestop.poke_lat, pokestop.poke_lng]);
+        });
+        pokestops.sort(function(a, b) {
+          return a.d - b.d;
+        });
 
         var results = '<option value="請選擇補給站">請選擇補給站</option>' + pokestops.map(function (pokestop) {
             return '\n            <option value="' + pokestop.poke_title + '\uFF20' + pokestop.poke_lat + '\uFF20' + pokestop.poke_lng + '\uFF20' + pokestop.poke_image + '">\n                ' + pokestop.poke_title + '\n            </option>';

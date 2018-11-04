@@ -271,6 +271,12 @@
     // 產製附近站點
     function setPokestops(pokestops) {
         let pokestops_nearby = document.getElementById('pokestops_nearby');
+        let center = map.getCenter();
+
+        pokestops.forEach((pokestop) => {
+          pokestop.d = center.distanceTo([pokestop.poke_lat, pokestop.poke_lng]);
+        });
+        pokestops.sort((a, b) => a.d - b.d);
 
         const results = '<option value="請選擇補給站">請選擇補給站</option>' + pokestops
             .map(pokestop => `
