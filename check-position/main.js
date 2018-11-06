@@ -16,8 +16,8 @@ let img = document.querySelector('.img');
 
 let setPosition = (coords) => {
   console.log('accuracy', coords.accuracy);
-  let xp = (coords.latitude - p1[0]) / (p2[0] - p1[0]);
-  let yp = (coords.longitude - p1[1]) / (p2[1] - p1[1]);
+  let yp = (coords.latitude - p1[0]) / (p2[0] - p1[0]);
+  let xp = (coords.longitude - p1[1]) / (p2[1] - p1[1]);
   console.log({xp, yp});
   img.style.setProperty('--xp', `${xp * 100}%`);
   img.style.setProperty('--yp', `${yp * 100}%`);
