@@ -34,3 +34,7 @@ img.addEventListener('click', () => {
     clearTimeout(img.checker);
   }
 });
+
+document.addEventListener(visibilityChange, () => {
+  img.click();
+}, false);
