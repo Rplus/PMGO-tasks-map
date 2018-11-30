@@ -88,6 +88,11 @@ html, body, #map {
   display: block;
 }
 
+.filters img {
+  width: 36px;
+  height: 36px;
+}
+
 div * {
   margin: 0;
 }
