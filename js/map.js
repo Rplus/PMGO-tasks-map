@@ -3,8 +3,11 @@ import getPosition from './u/get-position.js';
 import { getData } from './get-data.js';
 
 window.Leaflet = window.L;
-const map = Leaflet.map('map');
+const map = Leaflet.map('map', {
+  zoomControl: false,
+});
 
+L.control.zoom({position: 'bottomright'}).addTo(map);
 
 fetch('./service-worker.js')
 .then(d => d.text())
