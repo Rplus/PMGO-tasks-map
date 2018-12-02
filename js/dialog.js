@@ -4,19 +4,20 @@ import { reportTask } from './report-task.js';
 
 let eventTasks = {
   '1. 撒尿牛丸月': [
-    '強化10次：銀凰果',
-    '傳送10隻：夢妖',
-    '交換1隻：醜醜魚',
-    '1曲G：晃晃斑',
-    '團體戰獲勝1場：多邊獸',
+    '銀凰果',
+    '夢妖',
+    '醜醜魚',
+    '晃晃斑',
+    '多邊獸',
   ],
   '2. 衝衝衝': [
-    '7場絕佳：電擊獸',
-    '連續3E：幼基拉斯',
-    '孵5個蛋：吉利蛋',
-    '孵3個蛋：鴨嘴火獸',
-    '捉1隻龍：迷你龍',
-    '3G：鬼斯',
+    '電擊獸',
+    '幼基拉斯',
+    '吉利蛋',
+    '迷唇姐',
+    '鴨嘴火獸',
+    '迷你龍',
+    '鬼斯',
   ],
 };
 
@@ -33,7 +34,7 @@ class reportDialog {
       tasks = tasks.reduce((all, task) => {
         let eventGroup = null;
         events.some(event => {
-          let matched = eventTasks[event].includes(task);
+          let matched = eventTasks[event].includes(task && task.split('：')[1]);
           if (matched) {
             eventGroup = event;
           }
