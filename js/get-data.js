@@ -11,12 +11,13 @@ export const getTasks = u.fetchJSON(`${urls.macros}?method=get_tasks`);
 
 
 function getIcons(tasks) {
+  let size = document.documentElement.clientWidth > 960 ? 48 : 32;
   window.info.taskIcons = tasks.reduce((all, task) => {
     all[task] = Leaflet.icon({
       iconUrl: `${urls.imgHost}/${task}_.png`,
-      iconSize: [48, 48], // size of the icon
-      iconAnchor: [24, 24], // point of the icon which will correspond to marker's location
-      popupAnchor: [0, -18] // point from which the popup should open relative to the iconAnchor
+      iconSize: [size, size], // size of the icon
+      iconAnchor: [size / 2, size / 2], // point of the icon which will correspond to marker's location
+      popupAnchor: [0, -size / 3] // point from which the popup should open relative to the iconAnchor
     });
     return all;
   }, {});
