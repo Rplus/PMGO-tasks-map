@@ -30,7 +30,9 @@ export function setMark(report) {
       report: report,
     }
   )
-  .bindPopup(popupContent);
+  .bindPopup(popupContent, {
+    autoPan: false,
+  });
 
   if (isDoubtful) {
     console.info({ Doubtful: marker });
